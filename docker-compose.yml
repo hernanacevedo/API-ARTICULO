@@ -1,0 +1,32 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MYSQL_DATABASE=dev_art
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD= # Aquí puedes dejarlo vacío si no tienes contraseña
+      - MYSQL_HOST=db  # Cambiado a db
+      - ENGINE_DB=mySql
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: # Aquí puedes dejarlo vacío si no tienes contraseña
+      MYSQL_DATABASE: dev_art # Base de datos que se creará
+      MYSQL_USER: root
+      MYSQL_PASSWORD: # Contraseña para el usuario root (puede ser vacía)
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
